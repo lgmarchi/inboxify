@@ -1,21 +1,28 @@
 use std::net::TcpListener;
 
-use actix_web::{
-    dev::Server, web, App, HttpRequest, HttpResponse, HttpServer, Responder,
-};
+use actix_web::{dev::Server, web, App, HttpRequest, HttpResponse, HttpServer};
+use serde::Deserialize;
 
-// async fn greet(req: HttpRequest) -> impl Responder {
-//     let name = req.match_info().get("name").unwrap_or("World");
-//     format!("Hello {}!", &name)
-// }
+async fn health_check(_req: HttpRequest) -> HttpResponse {
+    HttpResponse::Ok().finish()
+}
 
-async fn health_check(_req: HttpRequest) -> impl Responder {
-    HttpResponse::Ok()
+#[derive(Deserialize)]
+struct FormData {
+    email: String,
+    name: String,
+}
+
+// Form already verify if data from URL will deserialze correctly on FormData struct
+async fn subscribe(form: web::Form<FormData>) -> HttpResponse {
+    HttpResponse::Ok().finish()
 }
 
 pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
     let server = HttpServer::new(move || {
-        App::new().route("/health_check", web::get().to(health_check))
+        App::new()
+            .route("/health_check", web::get().to(health_check))
+            .route("/subscriptions", web::post().to(subscribe))
     })
     .listen(listener)?
     .run();
