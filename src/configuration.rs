@@ -38,7 +38,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .build()?;
     // settings.merge(config::File::with_name("configuration"))?;
 
-    // Try to convert the configuration values ir tead into
+    // Try to convert the configuration values in read into
     // our Settings type
     settings.try_deserialize()
 }
