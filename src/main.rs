@@ -1,6 +1,6 @@
 use std::net::TcpListener;
 
-use inboxify::run;
+use inboxify::startup::run;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {

@@ -10,7 +10,8 @@ fn spawn_app() -> String {
 
     // Port 0 make the OS look for
     // any available port to use
-    let server = inboxify::run(tcp_listener).expect("Failed to bind address");
+    let server =
+        inboxify::startup::run(tcp_listener).expect("Failed to bind address");
 
     tokio::spawn(server);
 
