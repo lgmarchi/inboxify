@@ -1,6 +1,40 @@
 [package]
 name = "inboxify"
 version = "0.1.0"
+authors = ["Lucas Marchi"]
 edition = "2021"
 
+[lib]
+path = "src/lib.rs"
+
+# Double square brackets is an array on TOML syntax
+# To have multiple libs, need to use workspace feature 
+# But is possible to have multiple binaries
+[[bin]]
+path = "src/main.rs"
+name = "inboxify"
+
 [dependencies]
+actix-web = "4.10.2"
+config = "0.15.11"
+serde = { version = "1.0.219", features = ["derive"] }
+tokio = { version = "1.44.1", features = ["macros", "rt-multi-thread"] }
+
+# Using table-like toml syntax to avoid a super-long line!  
+[dependencies.sqlx]
+version = "0.7.4"
+default-features = false
+features = [
+    "runtime-tokio",
+    "tls-native-tls",
+    # "runtime-actix-rustls",
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate",
+]
+
+
+[dev-dependencies]
+reqwest = "0.12.15"
